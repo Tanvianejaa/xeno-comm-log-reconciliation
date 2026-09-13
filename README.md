@@ -24,7 +24,7 @@
 | 0 | Naive `COUNT(*)` | **30** | Starting point — every send attempt, no logic applied |
 | 1 | `COUNT(DISTINCT customer_id)` | **25** | `target_base` counts distinct customers reached, not raw send attempts — 5 rows were repeat attempts at the same customer within a retry chain |
 | 2 | Exclude campaign 9004 (`creation_status = 'approval_awaiting'`) | **21** | Not yet approved, even though its sends already ran — `creation_status` is the actual reporting gate, not `processing_status`. Removes 4 customers who only appear under this ineligible campaign |
-| 3 | Add back a customer's 2nd send under standalone campaign 9101 | **22** ✅ | Standalone campaigns (no parent, no retries pointing at them) count every send as its own event — they aren't deduped by customer the way retry chains are |
+| 3 | Add back a customer's 2nd send under standalone campaign 9101 | **22**  | Standalone campaigns (no parent, no retries pointing at them) count every send as its own event — they aren't deduped by customer the way retry chains are |
 | **Final** | | **22** | ✓ matches Finance |
 
 **Checked and ruled out along the way:**
